@@ -11,7 +11,7 @@
               minlength="3" email="email"
                placeholder="Email"
                (ngModelChange)="onEmailChange($event)"
-               [ngModelOptions]="{updateOn: 'blur'}"
+               [ngModelOptions]="{standalone: true}"
         >
 
 
@@ -42,7 +42,7 @@
     </form>
 
     <div class="form-val">
-      {{ email.value | json }}
+      {{ loginForm.value | json }}
     </div>
 
   </mat-card-content>
