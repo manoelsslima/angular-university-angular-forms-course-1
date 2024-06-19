@@ -2,7 +2,7 @@
   <mat-card-title>Login</mat-card-title>
   <mat-card-content>
 
-    <form class="login-form data-form" #loginForm="ngForm">
+    <form class="login-form data-form" #loginForm="ngForm" (ngSubmit)="login(loginForm, $event)">
 
       <mat-form-field>
 
@@ -30,8 +30,7 @@
 
       </mat-form-field>
 
-      <button mat-raised-button color="primary"
-      (click)="login(loginForm)">
+      <button mat-raised-button color="primary" [disabled]="!loginForm.valid">
         Login
       </button>
 
