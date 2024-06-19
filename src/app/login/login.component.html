@@ -9,7 +9,12 @@
         <input matInput type="email" name="email"
               ngModel #email="ngModel" required
               minlength="3" email="email"
-               placeholder="Email">
+               placeholder="Email"
+               (ngModelChange)="onEmailChange($event)"
+               [ngModelOptions]="{updateOn: 'blur'}"
+        >
+
+
         <mat-error *ngIf="email.errors?.required">
           The e-mail is mandatory.
         </mat-error>
@@ -37,7 +42,7 @@
     </form>
 
     <div class="form-val">
-      {{ email.errors | json }}
+      {{ email.value | json }}
     </div>
 
   </mat-card-content>

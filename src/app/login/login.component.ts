@@ -23,4 +23,8 @@ export class LoginComponent implements OnInit {
     console.log(loginForm.value, loginForm.valid, submitEvent);
   }
 
+  onEmailChange(field) {
+    console.log(field);
+  }
+
 }
