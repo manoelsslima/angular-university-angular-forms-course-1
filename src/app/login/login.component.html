@@ -2,17 +2,14 @@
   <mat-card-title>Login</mat-card-title>
   <mat-card-content>
 
-    <form class="login-form data-form" #loginForm="ngForm" (ngSubmit)="login(loginForm, $event)">
+    <form class="login-form data-form" #loginForm="ngForm" (ngSubmit)="login(loginForm)">
 
       <mat-form-field>
 
         <input matInput type="email" name="email"
               ngModel #email="ngModel" required
               minlength="3" email="email"
-               placeholder="Email"
-               (ngModelChange)="onEmailChange($event)"
-               [ngModelOptions]="{standalone: true}"
-        >
+               placeholder="Email">
 
 
         <mat-error *ngIf="email.errors?.required">
