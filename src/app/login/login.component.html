@@ -7,11 +7,9 @@
       <mat-form-field>
 
         <input matInput type="email" name="email"
-              [ngModel]="val.email"
-              #email="ngModel" required
+              ngModel #email="ngModel" required
               minlength="3" email="email"
-               placeholder="Email">
-
+              placeholder="Email">
 
         <mat-error *ngIf="email.errors?.required">
           The e-mail is mandatory.
@@ -26,25 +24,25 @@
       </mat-form-field>
 
       <mat-form-field>
-
         <input matInput type="password" name="password"
-        [ngModel]="val.password" #password="ngModel"
-        required passwordStrength minlength="8"
-        placeholder="Password">
+                ngModel #password="ngModel"
+                required passwordStrength minlength="8"
+                placeholder="Password">
 
-        <ng-container *ngIf="password.errors | onlyOneError:['required', 'minlength', 'passwordStrength']" as error>
-          <mat-error *ngIf="error?.required">
+          <mat-error *ngIf="password.errors?.required">
             The password is mandatory.
           </mat-error>
-          <mat-error *ngIf="error?.minlength">
-            Your password must have minimum {{ password.errors?.minlength.requiredLength }} chars,
-            but it only has {{ password.errors?.minlength.actualLength }}.
-          </mat-error>
-          <mat-error *ngIf="error?.passwordStrength">
-            Your password must have lower case, upper case and numeric characters.
-          </mat-error>
-        </ng-container>
       </mat-form-field>
+
+      <ng-container	*ngIf="password.errors | onlyOneError:['required', 'minlength', 'passwordStrength'] as error">
+        <div class="field-message" *ngIf="error.minlength">
+          Your password must have minimum {{ error.minlength.requiredLength }} chars,
+          but it only has {{ error.minlength.actualLength }}.
+        </div>
+        <div class="field-message" *ngIf="error.passwordStrength">
+          Your password must have lower case, upper case and numeric characters.
+        </div>
+      </ng-container>
 
       <button mat-raised-button color="primary" [disabled]="!loginForm.valid">
         Login
@@ -53,7 +51,7 @@
     </form>
 
     <div class="form-val">
-      {{ password.errors | json }}
+      {{ loginForm.value | json }}
     </div>
 
   </mat-card-content>
