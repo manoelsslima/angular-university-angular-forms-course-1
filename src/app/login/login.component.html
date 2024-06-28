@@ -35,11 +35,11 @@
       </mat-form-field>
 
       <ng-container	*ngIf="password.errors | onlyOneError:['required', 'minlength', 'passwordStrength'] as error">
-        <div class="mat-mdc-form-field-error" *ngIf="error.minlength">
+        <div class="mat-mdc-form-field-subscript-wrapper mat-mdc-form-field-error" *ngIf="error.minlength">
           Your password must have minimum {{ error.minlength.requiredLength }} chars,
           but it only has {{ error.minlength.actualLength }}.
         </div>
-        <div class="mat-mdc-form-field-error" *ngIf="error.passwordStrength">
+        <div class="mat-mdc-form-field-subscript-wrapper mat-mdc-form-field-error" *ngIf="error.passwordStrength">
           Your password must have lower case, upper case and numeric characters.
         </div>
       </ng-container>
