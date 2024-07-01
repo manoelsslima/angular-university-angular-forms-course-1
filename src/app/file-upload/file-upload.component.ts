@@ -15,6 +15,13 @@ export class FileUploadComponent {
   @Input()
   requiredFileType: string;
 
-  fileName: '';
+  fileName: string = '';
 
+  onFileSelected(event) {
+    const file: File = event.target.files[0];
+    if (file) { // evita erro ao clicar em cancelar
+      this.fileName = file.name;
+      console.log(this.fileName);
+    }    
+  }
 }
