@@ -6,6 +6,7 @@ import {
   ControlValueAccessor,
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
+  ValidationErrors,
   Validator,
 } from "@angular/forms";
 import { Observable, noop, of } from "rxjs";
@@ -19,10 +20,15 @@ import { Observable, noop, of } from "rxjs";
       provide: NG_VALUE_ACCESSOR,
       multi: true,
       useExisting: FileUploadComponent
+    },
+    {
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: FileUploadComponent
     }
   ]
 })
-export class FileUploadComponent implements ControlValueAccessor {
+export class FileUploadComponent implements ControlValueAccessor, Validator {
   @Input()
   requiredFileType: string;
 
@@ -30,11 +36,15 @@ export class FileUploadComponent implements ControlValueAccessor {
 
   fileUploadError = false;
 
+  fileUploadSuccess = false;
+
   uploadProgress: number;
 
   onChange = (fileName: string) => {};
 
   onToched = () => {};
+
+  onValidatorChange = () => {};
 
   isDisabled: boolean = false;
 
@@ -70,7 +80,9 @@ export class FileUploadComponent implements ControlValueAccessor {
           if (event.type == HttpEventType.UploadProgress) {
             this.uploadProgress = Math.round(100 * (event.loaded / event.total));
           } else if (event.type == HttpEventType.Response) {
+            this.fileUploadSuccess = true;
             this.onChange(this.fileName);
+            this.onValidatorChange();
           }
         });
     }
@@ -92,5 +104,22 @@ export class FileUploadComponent implements ControlValueAccessor {
   }
   setDisabledState?(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
+  }
+
+  validate(control: AbstractControl<any, any>): ValidationErrors {
+    if (this.fileUploadSuccess) { // caso de sucesso
+      return null;
+    }
+    let erros: any = {
+      requiredFileType: this.requiredFileType // tipo de arquivo requerido
+    }
+    if (this.fileUploadError) { // falha no upload
+      erros.uploadFailed = true;
+    }
+    return erros;
+  }
+
+  registerOnValidatorChange(fn: () => void): void {
+    this.onValidatorChange = fn;
   }
 }
