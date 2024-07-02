@@ -13,12 +13,21 @@ import {noop, Subscription} from 'rxjs';
 @Component({
   selector: 'address-form',
   templateUrl: './address-form.component.html',
-  styleUrls: ['./address-form.component.scss']
+  styleUrls: ['./address-form.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: AddressFormComponent
+    }
+  ]
 })
-export class AddressFormComponent {
+export class AddressFormComponent implements ControlValueAccessor, OnDestroy {
 
     @Input()
     legend:string;
+    onTouched = () => {};
+    onChangeSub: Subscription;
 
     form: FormGroup = this.fb.group({
         addressLine1: [null, [Validators.required]],
@@ -28,6 +37,33 @@ export class AddressFormComponent {
     });
 
     constructor(private fb: FormBuilder) {
+    }
+
+    writeValue(value: any): void {
+      if (value) {
+        this.form.setValue(value);
+      }
+    }
+
+    registerOnTouched(onTouched: any): void {
+      this.onTouched = onTouched;
+    }
+
+    setDisabledState(disabled: boolean): void {
+      if (disabled) {
+        this.form.disable();
+      } else {
+        this.form.enable();
+      }
+    }
+
+    registerOnChange(onChange: any): void {
+      this.onChangeSub = this.form.valueChanges.subscribe(value => onChange(value));
+      //this.form.valueChanges.subscribe(onChange); // forma simplificada
+    }
+
+    ngOnDestroy(): void {
+      this.onChangeSub.unsubscribe();
     }
 
 }
