@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -9,5 +9,12 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class CreateCourseStep3Component {
 
+  form = this.fb.group({
+    
+  });
+
+  constructor(private fb: FormBuilder) {
+
+  }
 
 }
