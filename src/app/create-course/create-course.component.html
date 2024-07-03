@@ -3,7 +3,7 @@
 
   <h2 class="title">Create New Course</h2>
 
-  <mat-horizontal-stepper [linear]="false" class="mat-elevation-z5" labelPosition="bottom">
+  <mat-horizontal-stepper [linear]="true" class="mat-elevation-z5" labelPosition="bottom">
     <mat-step [stepControl]="step1.form" errorMessage="Landing page is in error">
       <ng-template matStepLabel>course landing page details</ng-template>
       <create-course-step-1 #step1></create-course-step-1>
@@ -30,8 +30,9 @@
       <div class="stepper-buttons">
         <button mat-raised-button matStepperPrevious>Back</button>
         <button mat-raised-button color="primary"
-          [disabled]="!step3.form.valid"
-        >Create course</button>
+          [disabled]="!step3.form.valid || step3.lessons.length == 0"
+          (click)="submit(step1.form.value, step2.form.value, step3.form.value)"
+          >Create course</button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>
